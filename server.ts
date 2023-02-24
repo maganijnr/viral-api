@@ -1,13 +1,13 @@
 import "dotenv/config";
 import express from "express";
-import errorHandler from "./helpers/errorHandler";
-import env from "./helpers/validateEnv";
-import connectDB from "./config/connectDb";
+import errorHandler from "./src/helpers/errorHandler";
+import env from "./src/helpers/validateEnv";
+import connectDB from "./src/config/connectDb";
 import bodyParser from "body-parser";
 import expressFile from "express-fileupload";
-import authRoutes from "./routes/authRoutes";
-import postRoutes from "./routes/postRoutes";
-import uploadRoutes from "./routes/uploadRoute";
+import authRoutes from "./src/routes/authRoutes";
+import postRoutes from "./src/routes/postRoutes";
+import uploadRoutes from "./src/routes/uploadRoute";
 import cors from "cors";
 
 const app = express();
