@@ -1,27 +1,60 @@
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
-import fs from "fs";
-// import multer from 'multer'
+import PostModel from "../models/PostModel";
 
-// const storage = multer.diskStorage({
-// 	destination: (req, file, callback) => {
-// 		callback(null, '../uploads/posts')
-// 	},
-// 	filename: (req, file, callback) => {
-// 		callback(null, file.originalname)
-// 	}
-// })
-
-// const upload = multer({storage: storage})
-
+//Create a post
+// /api/posts
+// protected
 export const createPost = asyncHandler(async (req: Request, res: Response) => {
-	// var img = fs.readFileSync(req?.file.path);
-	//  var encode_img = img.toString('base64');
-	//  var final_img = {
-	//      contentType: req?.file.mimetype,
-	//      image:new Buffer(encode_img,'base64')
-	//  };
-	const newPost = req.body;
+	const { message, imageUrl } = req.body;
+	const user = req.user;
 
-	res.json(newPost);
+	const newPost = await PostModel.create({
+		message,
+		//@ts-ignore
+		creator: user?._id,
+		imageUrl,
+	});
+
+	if (newPost) {
+		res.status(201).json({ message: "Sucessfully created", post: newPost });
+	} else {
+		res.status(400);
+		throw new Error("Something went wrong");
+	}
+});
+
+//Get all posts
+// /api/posts
+export const fecthAllPosts = asyncHandler(
+	async (req: Request, res: Response) => {
+		const allPosts = await PostModel.find().sort("-createdAt");
+
+		if (allPosts) {
+			res.status(200).json({ posts: allPosts });
+		} else {
+			res.status(400);
+			throw new Error("Something went wrong");
+		}
+	}
+);
+
+//Delete a single post
+// /api/post/:postId
+//Protected
+export const deletePost = asyncHandler(async (req: Request, res: Response) => {
+	const postId = req.params.postId;
+
+	const response = await PostModel.findByIdAndDelete({ _id: postId });
+	if (!response) {
+		res.status(404);
+		throw new Error("Post does not exist");
+	}
+
+	if (response) {
+		res.status(200).json({ message: "Deleted successfully" });
+	} else {
+		res.status(400);
+		throw new Error("Something went wrong");
+	}
 });
