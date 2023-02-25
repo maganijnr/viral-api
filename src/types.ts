@@ -3,7 +3,7 @@ export interface IPost {
 	message?: string;
 	creator: ObjectId;
 	imageUrl?: string;
-	comments?: [IComment];
+	comments?: [string];
 	likes: [ILike];
 }
 
