@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import { IPost } from "../types";
+import CommentModel from "./CommentModel";
 
 const postModel = new Schema<IPost>(
 	{
@@ -20,8 +21,7 @@ const postModel = new Schema<IPost>(
 			default: [],
 		},
 		comments: {
-			type: [Schema.Types.ObjectId],
-			ref: "Comment",
+			type: [String],
 			default: [],
 		},
 	},
