@@ -8,6 +8,7 @@ import expressFile from "express-fileupload";
 import authRoutes from "./src/routes/authRoutes";
 import postRoutes from "./src/routes/postRoutes";
 import uploadRoutes from "./src/routes/uploadRoute";
+import userRoutes from "./src/routes/userRoutes";
 import cors from "cors";
 
 const app = express();
@@ -30,6 +31,7 @@ app.use(express.json());
 app.use("/api", authRoutes);
 app.use("/api", postRoutes);
 app.use("/api", uploadRoutes);
+app.use("/api", userRoutes);
 
 app.use(errorHandler);
 

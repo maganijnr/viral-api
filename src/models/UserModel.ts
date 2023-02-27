@@ -20,6 +20,15 @@ const userModel = new Schema<IUser>(
 			default:
 				"https://icon-library.com/images/no-user-image-icon/no-user-image-icon-3.jpg",
 		},
+		coverPhoto: {
+			type: String,
+			default:
+				"https://bikaash.com.np/wp-content/themes/miyazaki/assets/images/default-fallback-image.png",
+		},
+		followers: {
+			type: [Schema.Types.ObjectId],
+			ref: "User",
+		},
 	},
 	{ timestamps: true }
 );
