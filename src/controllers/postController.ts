@@ -29,7 +29,10 @@ export const createPost = asyncHandler(async (req: Request, res: Response) => {
 // /api/posts
 export const fecthAllPosts = asyncHandler(
 	async (req: Request, res: Response) => {
-		const allPosts = await PostModel.find().sort("-createdAt");
+		const allPosts = await PostModel.find()
+			.sort("-createdAt")
+			.populate("creator")
+			.exec();
 
 		if (allPosts) {
 			res.status(200).json({ posts: allPosts });
