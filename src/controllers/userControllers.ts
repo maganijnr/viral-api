@@ -9,7 +9,9 @@ export const getMyProfile = asyncHandler(
 		//@ts-ignore
 		const userId = req.user._id;
 
-		const user = await UserModel.findById({ _id: userId });
+		const user = await UserModel.findById({ _id: userId })
+			.populate("creator")
+			.exec();
 
 		if (!user) {
 			res.status(404);
@@ -27,7 +29,9 @@ export const getUserProfile = asyncHandler(
 	async (req: Request, res: Response) => {
 		const id = req.params.id;
 
-		const user = await UserModel.findById({ _id: id });
+		const user = await UserModel.findById({ _id: id })
+			.populate("creator")
+			.exec();
 
 		if (!user) {
 			res.status(404);
@@ -46,7 +50,9 @@ export const followUser = asyncHandler(async (req: Request, res: Response) => {
 	const userId = req.user._id;
 
 	const id = req.params.id;
-	const user = await UserModel.findById({ _id: id });
+	const user = await UserModel.findById({ _id: id })
+		.populate("creator")
+		.exec();
 
 	if (!user) {
 		res.status(404);
