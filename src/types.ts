@@ -21,4 +21,6 @@ export interface IUser {
 	email: string;
 	password: string;
 	avatar?: string;
+	followers?: [ObjectId];
+	coverPhoto?: string;
 }
