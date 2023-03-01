@@ -81,3 +81,43 @@ export const followUser = asyncHandler(async (req: Request, res: Response) => {
 		throw new Error("Something went wrong");
 	}
 });
+
+export const updateUser = asyncHandler(async (req: Request, res: Response) => {
+	//@ts-ignore
+	const user = await UserModel.findById(req.user._id);
+
+	if (user) {
+		const { username, email, avatar, coverPhoto } = user;
+		user.username = req.body.username || username;
+		user.email = req.body.email || email;
+		user.avatar = req.body.avatar || avatar;
+		user.coverPhoto = req.body.coverPhoto || coverPhoto;
+
+		const updateUser = await user.save();
+
+		res.status(200).json({ message: "User updated", user: updateUser });
+	} else {
+		res.status(400);
+		throw new Error("User not found");
+	}
+});
+
+export const searchUsers = asyncHandler(async (req: Request, res: Response) => {
+	const user = req.query.user
+		? {
+				username: {
+					$regex: req.query.user,
+					$options: "i",
+				},
+		  }
+		: {};
+
+	const users = await UserModel.find({ ...user }).sort("-createdAt");
+
+	if (users) {
+		res.status(200).json({ users });
+	} else {
+		res.status(404);
+		throw new Error(`User not found`);
+	}
+});

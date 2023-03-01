@@ -1,6 +1,6 @@
 import cloudinary from "cloudinary";
 import env from "../helpers/validateEnv";
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 
 const router = Router();
 const cloud = cloudinary.v2;
@@ -29,6 +29,22 @@ const uploadSingleImage = async (image: any) => {
 };
 
 router.post("/upload-post", async (req, res) => {
+	const baseImage = req.body.image;
+
+	uploadSingleImage(baseImage)
+		.then((url) => res.send(url))
+		.catch((err) => console.log(err));
+});
+
+router.post("/upload-avatar", async (req: Request, res: Response) => {
+	const baseImage = req.body.image;
+
+	uploadSingleImage(baseImage)
+		.then((url) => res.send(url))
+		.catch((err) => console.log(err));
+});
+
+router.post("/upload-cover-photo", async (req: Request, res: Response) => {
 	const baseImage = req.body.image;
 
 	uploadSingleImage(baseImage)
