@@ -121,3 +121,15 @@ export const searchUsers = asyncHandler(async (req: Request, res: Response) => {
 		throw new Error(`User not found`);
 	}
 });
+
+export const getUsers = asyncHandler(async (req: Request, res: Response) => {
+	const users = await UserModel.find().select("-password");
+
+	const unfollowedUsers = users.filter(
+		(x) =>
+			//@ts-ignore
+			!x.followers?.includes(req.user._id)
+	);
+
+	res.status(200).json({ users: unfollowedUsers });
+});
