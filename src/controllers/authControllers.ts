@@ -8,7 +8,7 @@ import env from "../helpers/validateEnv";
 
 const generateToken = (username: any, userId: any) => {
 	const token = jwt.sign({ username, id: userId }, env.JWT_KEY, {
-		expiresIn: "3d",
+		expiresIn: "365d",
 	});
 
 	return token;
